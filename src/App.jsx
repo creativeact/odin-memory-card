@@ -6,6 +6,10 @@ import './App.css'
 function App() {
   const [flipped, setFlipped] = useState(false);
   const [shuffledCards, setShuffledCards] = useState([]);
+  const [selectedCards, setSelectedCards] = useState([]);
+  const [score, setScore] = useState(0);
+  const [bestScore, setBestScore] = useState(0);
+  const [endGame, setEndGame] = useState(false);
 
   function shuffleCards(cards) {
     const shuffled = [...cards];
@@ -13,7 +17,17 @@ function App() {
       const j = Math.floor(Math.random() * (i + 1));
       [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
     }
+    console.log(shuffled);
     return shuffled;
+  }
+
+  function handleEndGame() {
+    if (score > bestScore || bestScore === '') {
+      setBestScore(score);
+    }
+    setEndGame(true);
+    setSelectedCards([]);
+    setScore(0);
   }
 
   useEffect(() => {
@@ -45,17 +59,27 @@ function App() {
     getCharacters();
   }, []);
 
-  const handleClick = () => {
+  const handleClick = (character) => {
+    if (selectedCards.includes(character.id)) {
+      handleEndGame();
+      return;
+    }
+    setSelectedCards(prev => [...prev, character.id]);
+    setScore(prev => prev + 1);
     setFlipped(true);
     setShuffledCards(prev => shuffleCards(prev));
-    setTimeout(
-      setTimeout(() => setFlipped(false), 1000)
-    )
+    setTimeout(() => setFlipped(false), 500)
   }
 
   return (
     <>
-      <h1>Memory Card Game</h1>
+      <div className="top">
+        <h1>Memory Card Game</h1>
+        <div className='score-container'>
+          <p>Score: {score}</p>
+          <p>Best Score: {bestScore}</p>
+        </div>
+      </div>
       <div className='game-container'>
         {
           !flipped ? (

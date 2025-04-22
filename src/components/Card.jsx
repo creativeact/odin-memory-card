@@ -1,7 +1,7 @@
 function Card({ character, handleClick }) {
 
     return (
-        <div className='card' onClick={handleClick}>
+        <div className='card' onClick={() => handleClick(character)}>
             <div className='image-container'>
                 <img className='character-image' src={character.image}></img>
             </div>

@@ -4,8 +4,17 @@ import './App.css'
 
 
 function App() {
-  const [characters, setCharacters] = useState([]);
   const [flipped, setFlipped] = useState(false);
+  const [shuffledCards, setShuffledCards] = useState([]);
+
+  function shuffleCards(cards) {
+    const shuffled = [...cards];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+  }
 
   useEffect(() => {
     async function getCharacters() {
@@ -28,9 +37,7 @@ function App() {
           id: entry.character.mal_id,
         };
       });
-      
-      console.log(characters);
-      setCharacters(characters);
+      setShuffledCards(shuffleCards(characters));
       } catch (error) {
           console.error("Error retrieving characters:", error);
       }
@@ -40,7 +47,7 @@ function App() {
 
   const handleClick = () => {
     setFlipped(true);
-
+    setShuffledCards(prev => shuffleCards(prev));
     setTimeout(
       setTimeout(() => setFlipped(false), 1000)
     )
@@ -52,7 +59,7 @@ function App() {
       <div className='game-container'>
         {
           !flipped ? (
-            characters.map((character) => (
+            shuffledCards.map((character) => (
              <Card 
                key={character.id} 
                character={character} 
@@ -60,7 +67,7 @@ function App() {
              />
             ))
         ) : (
-          characters.map((character) => (
+          shuffledCards.map((character) => (
             <CardBack key={character.id}/>
           ))
         )

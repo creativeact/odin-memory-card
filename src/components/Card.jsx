@@ -1,9 +1,3 @@
-
-
-// To add:
-    // Onclick prop
-
-
 function Card({ character, handleClick }) {
 
     return (

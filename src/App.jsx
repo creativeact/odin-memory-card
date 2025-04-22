@@ -1,33 +1,51 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useEffect, useState } from 'react';
+import { Card } from './components/Card';
 import './App.css'
 
+
 function App() {
-  const [count, setCount] = useState(0)
+  const [characters, setCharacters] = useState([]);
+
+  useEffect(() => {
+    async function getCharacters() {
+      try {
+          const response = await fetch(
+              'https://api.jikan.moe/v4/anime/21/characters',
+              {
+                  method: 'GET',
+              },
+      );
+      const json = await response.json();
+      const characters = [
+        ...json.data.slice(0, 10),
+        json.data[60],
+        json.data[154],
+      ].map(entry => {
+        return {
+          name: entry.character.name,
+          image: entry.character.images.jpg.image_url,
+          id: entry.character.mal_id,
+        };
+      });
+      
+      console.log(characters);
+      setCharacters(characters);
+      } catch (error) {
+          console.error("Error retrieving characters:", error);
+      }
+    }
+    getCharacters();
+  }, []);
+
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <h1>Memory Card Game</h1>
+      <div className='game-container'>
+        {characters.map((character) => (
+          <Card key={character.id} character={character} />
+         ))}
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   )
 }

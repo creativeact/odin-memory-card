@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
-import { Card } from './components/Card';
+import { Card, CardBack } from './components/Card';
 import './App.css'
 
 
 function App() {
   const [characters, setCharacters] = useState([]);
+  const [flipped, setFlipped] = useState(false);
 
   useEffect(() => {
     async function getCharacters() {
@@ -37,14 +38,33 @@ function App() {
     getCharacters();
   }, []);
 
+  const handleClick = () => {
+    setFlipped(true);
+
+    setTimeout(
+      setTimeout(() => setFlipped(false), 1000)
+    )
+  }
 
   return (
     <>
       <h1>Memory Card Game</h1>
       <div className='game-container'>
-        {characters.map((character) => (
-          <Card key={character.id} character={character} />
-         ))}
+        {
+          !flipped ? (
+            characters.map((character) => (
+             <Card 
+               key={character.id} 
+               character={character} 
+               handleClick={handleClick}
+             />
+            ))
+        ) : (
+          characters.map((character) => (
+            <CardBack key={character.id}/>
+          ))
+        )
+      }
       </div>
     </>
   )

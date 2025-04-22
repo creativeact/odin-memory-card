@@ -1,11 +1,13 @@
+
+
 // To add:
     // Onclick prop
 
 
-function Card({ character }) {
+function Card({ character, handleClick }) {
 
     return (
-        <div className='card'>
+        <div className='card' onClick={handleClick}>
             <div className='image-container'>
                 <img className='character-image' src={character.image}></img>
             </div>
@@ -18,4 +20,12 @@ function Card({ character }) {
     )
 };
 
-export { Card }
+function CardBack() {
+    return (
+        <div className='card-back'>
+            <img class='back-img' src='./public/one-piece-logo.png'></img>
+        </div>
+    )
+}
+
+export { Card, CardBack }

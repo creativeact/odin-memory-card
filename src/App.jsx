@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Card, CardBack } from './components/Card';
+import { CardFlip } from './components/CardFlip';
 import { EndGameModal } from './components/EndGameModal';
 import './App.css'
 
@@ -7,7 +8,7 @@ function App() {
   const [allCharacters, setAllCharacters] = useState([]);
   const [shuffledCards, setShuffledCards] = useState([]);
   const [selectedCards, setSelectedCards] = useState([]);
-  const [flipped, setFlipped] = useState(false);
+  const [isFlipped, setIsFlipped] = useState(false);
   const [score, setScore] = useState(0);
   const [bestScore, setBestScore] = useState(0);
   const [isNewBest, setIsNewBest] = useState(false);
@@ -32,9 +33,11 @@ function App() {
     setSelectedCards([]);
     setScore(0);
     setEndGame(false);
-    setFlipped(true);
     setShuffledCards(prev => shuffleCards(prev));
-    setTimeout(() => setFlipped(false), 500)
+    setIsFlipped(true); 
+    setTimeout(() => {
+      setIsFlipped(false);
+    }, 500);
   }
 
   useEffect(() => {
@@ -80,9 +83,11 @@ function App() {
 
     setSelectedCards(prev => [...prev, character.id]);
     setScore(prev => prev + 1);
-    setFlipped(true);
+    setIsFlipped(true); 
+    setTimeout(() => {
+      setIsFlipped(false);
+    }, 500);
     setShuffledCards(prev => shuffleCards(prev));
-    setTimeout(() => setFlipped(false), 500)
   }
 
   function getRandomCharacters(sourceArray, count) {
@@ -100,36 +105,30 @@ function App() {
     <>
       <div className="top">
         <h1>One Piece Memory Game</h1>
-        <p>Get points by clicking on an image, but don't click on any more than once!</p>
-        <button 
+        <p>Get points by clicking on an image, <br></br>but don't click on any more than once!</p>
+        <button
+          className="randomize-btn"
           onClick={() => {
             const random12 = getRandomCharacters(allCharacters, 12);
             setShuffledCards(shuffleCards(random12));
           }}>
-          Randomize Characters
+          Play With New Characters
         </button>
-        <div className='score-container'>
+        <div className='score'>
           <p>Score: {score}</p>
           <p>Best Score: {bestScore}</p>
         </div>
       </div>
       <div className="centered-content">
         <div className='game-container'>
-          {
-            !flipped ? (
-              shuffledCards.map((character) => (
-               <Card
-                 key={character.id}
-                 character={character}
-                 handleClick={handleClick}
-               />
-              ))
-          ) : (
-            shuffledCards.map((character) => (
-              <CardBack key={character.id}/>
-            ))
-          )
-        }
+          {shuffledCards.map((character) => (
+            <CardFlip
+              key={character.id}
+              isFlipped={isFlipped}
+              front={<Card character={character} handleClick={handleClick} />}
+              back={<CardBack />}
+            />
+          ))}
         </div>
         {endGame && (
         <EndGameModal

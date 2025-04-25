@@ -17,7 +17,7 @@ function Card({ character, handleClick }) {
 function CardBack() {
     return (
         <div className='card-back'>
-            <img class='back-img' src='./public/one-piece-logo.png'></img>
+            <img className='back-img' src='./src/assets/one-piece-logo.png'></img>
         </div>
     )
 }

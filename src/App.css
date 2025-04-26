@@ -8,7 +8,7 @@
 body {
   margin: 0;
   padding: 0;
-  background-image: url("./src/assets/water-anime-style.jpg");
+  background-image: url("water-anime-style.jpg");
   display: flex;
   flex-direction: column;
 }

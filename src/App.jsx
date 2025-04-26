@@ -5,6 +5,7 @@ import { EndGameModal } from "./components/EndGameModal";
 import { shuffleCards } from "./utils/shuffleCards.js";
 import { getRandomCharacters } from "./utils/getRandomCharacters.js";
 import { fetchCharacters } from "./utils/fetchCharacters.js";
+import OnePieceLogo from './assets/one-piece-logo.png';
 import "./App.css";
 
 function App() {
@@ -64,7 +65,7 @@ function App() {
         <div className="game-title">
           <img
             className="game-logo"
-            src="./src/assets/One-Piece-Logo.png"
+            src={OnePieceLogo}
           ></img>
           <h1>One Piece Memory Game</h1>
         </div>

@@ -1,3 +1,5 @@
+import cardBackImage from '../assets/one-piece-logo.png';
+
 function Card({ character, handleClick }) {
   return (
     <div className="card" onClick={() => handleClick(character)}>
@@ -14,7 +16,7 @@ function Card({ character, handleClick }) {
 function CardBack() {
   return (
     <div className="card-back">
-      <img className="back-img" src="./src/assets/one-piece-logo.png"></img>
+      <img className="back-img" src={cardBackImage}></img>
     </div>
   );
 }

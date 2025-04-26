@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import celebrationImage from '../assets/One-Piece-Celebration.jpg';
+import cryImage from '../assets/One-Piece-Luffy-Crying.jpg';
 
 function EndGameModal({ show, startNewGame, score, isNewBest }) {
   const [showModal, setShowModal] = useState(false);
@@ -15,7 +17,7 @@ function EndGameModal({ show, startNewGame, score, isNewBest }) {
             <p className="modal-header">Game Over</p>
             <img
               className="modal-img"
-              src="./src/assets/One-Piece-Celebration.jpg"
+              src={celebrationImage}
             ></img>
             <p>🎉 Congrats! You got a new best score: {score}</p>
           </>
@@ -24,7 +26,7 @@ function EndGameModal({ show, startNewGame, score, isNewBest }) {
             <p className="modal-header">Game Over</p>
             <img
               className="modal-img"
-              src="./src/assets/One-Piece-Luffy-Crying.jpg"
+              src={cryImage}
             ></img>
             <p>You scored: {score}</p>
           </>

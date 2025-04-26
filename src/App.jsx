@@ -2,6 +2,9 @@ import { useEffect, useState } from 'react';
 import { Card, CardBack } from './components/Card';
 import { CardFlip } from './components/CardFlip';
 import { EndGameModal } from './components/EndGameModal';
+import { shuffleCards } from './utils/shuffleCards.js';
+import { getRandomCharacters } from './utils/getRandomCharacters.js';
+import { fetchCharacters } from './utils/fetchCharacters.js';
 import './App.css'
 
 function App() {
@@ -13,26 +16,17 @@ function App() {
   const [bestScore, setBestScore] = useState(0);
   const [isNewBest, setIsNewBest] = useState(false);
   const [endGame, setEndGame] = useState(false);
+  const [show, setShow] = useState(false);
 
-  function shuffleCards(cards) {
-    const shuffled = [...cards];
-    for (let i = shuffled.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-    }
-    return shuffled;
-  }
-
-  function handleEndGame() {
-    setBestScore(prev => Math.max(score, prev));
-    setIsNewBest(score > bestScore);
-    setEndGame(true);
-  }
+  useEffect(() => {
+    fetchCharacters(setAllCharacters, setShuffledCards);
+  }, []);
 
   function startNewGame() {
     setSelectedCards([]);
     setScore(0);
     setEndGame(false);
+    setShow(false);
     setShuffledCards(prev => shuffleCards(prev));
     setIsFlipped(true); 
     setTimeout(() => {
@@ -40,39 +34,13 @@ function App() {
     }, 500);
   }
 
-  useEffect(() => {
-    async function getCharacters() {
-      try {
-          const response = await fetch(
-              'https://api.jikan.moe/v4/anime/21/characters',
-              {
-                  method: 'GET',
-              },
-      );
-      const json = await response.json();
-      const characters = json.data.map(entry => ({
-        name: entry.character.name,
-        image: entry.character.images.jpg.image_url,
-        id: entry.character.mal_id,
-      }))
-      .filter(character => !character.image.includes("questionmark")); // Filter out characters without an image
-
-      setAllCharacters(characters);
-
-      const initial12 = [
-        ...characters.slice(0, 10),
-        characters[59],
-        characters[151],
-      ];
-
-      setShuffledCards(shuffleCards(initial12));
-      } catch (error) {
-          console.error("Error retrieving characters:", error);
-      }
-    }
-    getCharacters();
-  }, []);
-
+  function handleEndGame() {
+    setBestScore(prev => Math.max(score, prev));
+    setIsNewBest(score > bestScore);
+    setEndGame(true);
+    setShow(true);
+  }
+  
   const handleClick = (character) => {
     if (endGame) return;
 
@@ -90,21 +58,13 @@ function App() {
     setShuffledCards(prev => shuffleCards(prev));
   }
 
-  function getRandomCharacters(sourceArray, count) {
-    const copied = [...sourceArray];
-    for (let i = copied.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [copied[i], copied[j]] = [copied[j], copied[i]];
-    }
-    console.log(copied.slice(0,count));
-    return copied.slice(0, count);
-    
-  }
-
   return (
     <>
       <div className="top">
-        <h1>One Piece Memory Game</h1>
+        <div className="game-title">
+          <img className="game-logo" src='./src/assets/One-Piece-Logo.png'></img>
+          <h1>One Piece Memory Game</h1>
+        </div>
         <p>Get points by clicking on an image, <br></br>but don't click on any more than once!</p>
         <button
           className="randomize-btn"
@@ -132,9 +92,9 @@ function App() {
         </div>
         {endGame && (
         <EndGameModal
+          show={show}
           startNewGame={startNewGame}
           score={score}
-          bestScore={bestScore}
           isNewBest={isNewBest}
         />
       )}

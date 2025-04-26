@@ -1,14 +1,18 @@
-import { shuffleCards } from './shuffleCards';
+import { shuffleCards } from "./shuffleCards";
 
 async function fetchCharacters(setAllCharacters, setShuffledCards) {
   try {
-    const response = await fetch('https://api.jikan.moe/v4/anime/21/characters');
+    const response = await fetch(
+      "https://api.jikan.moe/v4/anime/21/characters",
+    );
     const json = await response.json();
-    const characters = json.data.map(entry => ({
-      name: entry.character.name,
-      image: entry.character.images.jpg.image_url,
-      id: entry.character.mal_id,
-    })).filter(c => !c.image.includes("questionmark"));
+    const characters = json.data
+      .map((entry) => ({
+        name: entry.character.name,
+        image: entry.character.images.jpg.image_url,
+        id: entry.character.mal_id,
+      }))
+      .filter((c) => !c.image.includes("questionmark"));
 
     setAllCharacters(characters);
     const initial12 = [
@@ -22,4 +26,4 @@ async function fetchCharacters(setAllCharacters, setShuffledCards) {
   }
 }
 
-export { fetchCharacters }
+export { fetchCharacters };

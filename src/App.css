@@ -1,8 +1,8 @@
 :root {
   --primary-color: lightblue;
   --secondary-color: rgb(37, 53, 64);
-  --button-hover-color:rgb(58, 80, 95);
-  font-family: 'IBM Plex Serif', serif;
+  --button-hover-color: rgb(58, 80, 95);
+  font-family: "IBM Plex Serif", serif;
 }
 
 body {
@@ -22,7 +22,7 @@ body {
   padding: 10px 120px 20px 60px;
   background: linear-gradient(var(--primary-color), white);
   gap: 25px;
-  color: var(--secondary-color)
+  color: var(--secondary-color);
 }
 
 .game-logo {
@@ -44,7 +44,7 @@ button {
   padding: 25px;
   display: flex;
   align-items: center;
-  font-family: 'IBM Plex Serif', serif;
+  font-family: "IBM Plex Serif", serif;
 }
 
 button:hover {
@@ -89,7 +89,7 @@ button:hover {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  transition: box-shadow transform .3s ease;
+  transition: box-shadow transform 0.3s ease;
   border: 1px solid rgba(0, 0, 255, 0.6);
 }
 
@@ -125,13 +125,13 @@ button:hover {
 }
 
 .character-name {
-  font-size: .9rem;
+  font-size: 0.9rem;
   font-weight: bold;
   text-align: center;
   word-wrap: break-word;
   overflow-wrap: break-word;
   width: 185px;
-  color: var(--secondary-color)
+  color: var(--secondary-color);
 }
 
 .card-back {
@@ -196,7 +196,9 @@ button:hover {
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
   z-index: 1;
   pointer-events: none;
-  transition: opacity 0.5s ease, transform 0.5s ease;
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s ease;
   border: solid 1px var(--secondary-color);
 }
 

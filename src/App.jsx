@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
-import { Card, CardBack } from './components/Card';
-import { CardFlip } from './components/CardFlip';
-import { EndGameModal } from './components/EndGameModal';
-import { shuffleCards } from './utils/shuffleCards.js';
-import { getRandomCharacters } from './utils/getRandomCharacters.js';
-import { fetchCharacters } from './utils/fetchCharacters.js';
-import './App.css'
+import { useEffect, useState } from "react";
+import { Card, CardBack } from "./components/Card";
+import { CardFlip } from "./components/CardFlip";
+import { EndGameModal } from "./components/EndGameModal";
+import { shuffleCards } from "./utils/shuffleCards.js";
+import { getRandomCharacters } from "./utils/getRandomCharacters.js";
+import { fetchCharacters } from "./utils/fetchCharacters.js";
+import "./App.css";
 
 function App() {
   const [allCharacters, setAllCharacters] = useState([]);
@@ -27,20 +27,20 @@ function App() {
     setScore(0);
     setEndGame(false);
     setShow(false);
-    setShuffledCards(prev => shuffleCards(prev));
-    setIsFlipped(true); 
+    setShuffledCards((prev) => shuffleCards(prev));
+    setIsFlipped(true);
     setTimeout(() => {
       setIsFlipped(false);
     }, 500);
   }
 
   function handleEndGame() {
-    setBestScore(prev => Math.max(score, prev));
+    setBestScore((prev) => Math.max(score, prev));
     setIsNewBest(score > bestScore);
     setEndGame(true);
     setShow(true);
   }
-  
+
   const handleClick = (character) => {
     if (endGame) return;
 
@@ -49,38 +49,45 @@ function App() {
       return;
     }
 
-    setSelectedCards(prev => [...prev, character.id]);
-    setScore(prev => prev + 1);
-    setIsFlipped(true); 
+    setSelectedCards((prev) => [...prev, character.id]);
+    setScore((prev) => prev + 1);
+    setIsFlipped(true);
     setTimeout(() => {
       setIsFlipped(false);
     }, 500);
-    setShuffledCards(prev => shuffleCards(prev));
-  }
+    setShuffledCards((prev) => shuffleCards(prev));
+  };
 
   return (
     <>
       <div className="top">
         <div className="game-title">
-          <img className="game-logo" src='./src/assets/One-Piece-Logo.png'></img>
+          <img
+            className="game-logo"
+            src="./src/assets/One-Piece-Logo.png"
+          ></img>
           <h1>One Piece Memory Game</h1>
         </div>
-        <p>Get points by clicking on an image, <br></br>but don't click on any more than once!</p>
+        <p>
+          Get points by clicking on an image, <br></br>but don't click on any
+          more than once!
+        </p>
         <button
           className="randomize-btn"
           onClick={() => {
             const random12 = getRandomCharacters(allCharacters, 12);
             setShuffledCards(shuffleCards(random12));
-          }}>
+          }}
+        >
           Play With New Characters
         </button>
-        <div className='score'>
+        <div className="score">
           <p>Score: {score}</p>
           <p>Best Score: {bestScore}</p>
         </div>
       </div>
       <div className="centered-content">
-        <div className='game-container'>
+        <div className="game-container">
           {shuffledCards.map((character) => (
             <CardFlip
               key={character.id}
@@ -91,16 +98,16 @@ function App() {
           ))}
         </div>
         {endGame && (
-        <EndGameModal
-          show={show}
-          startNewGame={startNewGame}
-          score={score}
-          isNewBest={isNewBest}
-        />
-      )}
+          <EndGameModal
+            show={show}
+            startNewGame={startNewGame}
+            score={score}
+            isNewBest={isNewBest}
+          />
+        )}
       </div>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

@@ -62,14 +62,14 @@ function App() {
   return (
     <>
       <div className="top">
-        <div className="game-title">
+        <div className="game-header">
           <img
             className="game-logo"
             src={OnePieceLogo}
           ></img>
-          <h1>One Piece Memory Game</h1>
+          <h1 className="game-title">One Piece Memory Game</h1>
         </div>
-        <p>
+        <p className='game-desc'>
           Get points by clicking on an image, <br></br>but don't click on any
           more than once!
         </p>

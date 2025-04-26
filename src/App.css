@@ -13,6 +13,11 @@ body {
   flex-direction: column;
 }
 
+h1 {
+  padding: 0;
+  margin: 0;
+}
+
 /* Top */
 
 .top {
@@ -30,10 +35,14 @@ body {
   width: 75px;
 }
 
-.game-title {
+.game-header {
   display: flex;
   gap: 15px;
   align-items: center;
+}
+
+.game-title {
+  text-align: center;
 }
 
 button {
@@ -54,6 +63,34 @@ button:hover {
 
 .score {
   font-weight: bold;
+}
+
+@media (max-width: 700px) {
+  .game-header {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .top {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 60px 20px 60px;
+    gap: 10px;
+  }
+  .score {
+    font-size: 1.15rem;
+  }
+
+}
+
+@media (max-width: 1000px) {
+  .game-desc {
+    display: none;
+  }
+  .game-title {
+    font-size: 1.85rem;
+  }
 }
 
 /* Game */
